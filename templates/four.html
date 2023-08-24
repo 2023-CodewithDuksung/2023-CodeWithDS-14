@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Data</title>
+    <style>
+      .person {
+        display: inline-block;
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Filtered Weather Data</h1>
+    <div>
+      {% for aw in allweather %} {{aw}}
+      <div class="person">
+        <h2>{{ aw[0] }} {{ aw[1] }}</h2>
+        {{ aw[0] }} {{ aw[1] }} {{ loop.index }}번 사람 {% if '맑음' in aw %}
+        ☀️{% endif %}
+      </div>
+      {% if loop.index % 2 == 0 %}
+      <br />
+      {% endif %} {% endfor %}
+    </div>
+  </body>
+</html>
+<script>
+  //allweather은 전체 튜플 모아놓은거
+  //all은 튜플하나
+  //all이 ('맑음', '덥다', '민소매', '가디건') 이거니까 aw[0]는 맑음 aw[1]은 덥다
+  //endif endfor은 if문 for문이 끝나는걸 의미함
+</script>

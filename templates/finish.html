@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            width: 400px;
+            text-align: center;
+            color: #B70050;
+            margin: 20px auto;
+        }
+
+        .section button {
+            border: 1px solid #B70050;
+            background-color: #B70050;
+            color: white;
+            width: 150px;
+            height: 35px;
+            border-radius: 20px;
+            margin: 5px auto;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            line-height: 35px;
+        }
+
+        #header {
+            color: white;
+            background-color: #B70050;
+            width: 100%;
+            height: 100px;
+        }
+
+        nav strong {
+            display: inline-block;
+            font-size: 25px;
+            color: white;
+        }
+
+        input[id="menuicon"] {
+            display: none;
+            float: right;
+        }
+
+        input[id="menuicon"]+label {
+            display: block;
+            width: 35px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            float: right;
+        }
+
+        input[id="menuicon"]+label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            border-radius: 30px;
+            background: #B5B5B5;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"]+label span:nth-child(1) {
+            top: 0;
+        }
+
+        input[id="menuicon"]+label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[id="menuicon"]+label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="menuicon"]:checked+label {
+            z-index: 2;
+        }
+
+        input[id="menuicon"]:checked+label span {
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+            background: #B5B5B5;
+
+        }
+
+        div[class="sidebar"] {
+            width: 100vw;
+            height: 100%;
+            background: #fff;
+            position: fixed;
+            top: 7em;
+            right: -100vw;
+            z-index: 1;
+            transition: all .35s;
+
+        }
+
+        input[id="menuicon"]:checked+label+div {
+            right: 0;
+        }
+
+        .sidebar button {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .sidebar ul {
+            text-align: right;
+            margin-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .sidebar li {
+            display: block;
+            margin: 50px 0px 15px 20px;
+            text-align: left;
+        }
+
+        .sidebar strong {
+            color: gray;
+            font-size: 22px;
+        }
+
+        nav {
+            width: 100%;
+            height: 6em;
+            background-color: #B70050;
+            position: fixed;
+            padding: 2em 1.5em 1em 2em;
+        }
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .section {
+            padding-top: 12em;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+    <nav>
+        <strong>덕성 날씨 어때?</strong>
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <ul>
+                <li><button onClick=""><strong>메인화면</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>일기예보 비교</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>실시간 날씨 등록하기</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>오늘 뭐 입지?</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>실시간 게시판</strong></button></li>
+                <hr />
+            </ul>
+        </div>
+        </input>
+    </nav>
+    <div class="section">
+        <h2>제출 완료되었습니다!</h2><br>
+        <button onclick="window.location.href = '/todayweather'"; style="color: white; text-decoration: none;" >오늘 뭐 입지?</a></button>
+        <button onclick="window.location.href = '/main'">메인으로 돌아가기</button>
+        <button onclick="window.location.href = '/lotto'"; style="color: white; text-decoration: none;" target="_blank";>복권 긁기</a></button>
+    </div>
+</body>
+
+</html>

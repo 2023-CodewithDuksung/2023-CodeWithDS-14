@@ -1,0 +1,14 @@
+.section {
+  padding-top: 10em;
+  text-align: center;
+}
+h1 {
+  color: #b70050;
+}
+hr {
+  color: rgb(219, 214, 214);
+}
+.centered {
+  text-align: center;
+  padding-bottom: 10px;
+}

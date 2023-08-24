@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h2>
+      {{userweather}} {{userstatus}} 오늘의 날씨는{{ userweather[3] }}이고 {{
+      userstatus[0] }}해요 덕우들은 현재 {{ usercloth[0] }}에 {{ userouter[0]
+      }}를 제일 많이 입고있네요
+    </h2>
+    <button id="weatherSelect1">맑음</button>
+    <button id="weatherSelect2">구름조금</button>
+    <button id="statusSelect1">덥다</button>
+    <button id="statusSelect2">따뜻</button>
+    <button id="statusSelect3">시원</button>
+    <button id="statusSelect4">건조</button>
+    <button id="statusSelect5">습함</button>
+    <button id="clothSelect1">민소매</button>
+    <button id="clothSelect2">셔츠</button>
+    <button id="outerSelect1">가디건</button>
+    <button id="outerSelect2">바람막이</button>
+    <button id="submitButton">제출하기</button>
+  </body>
+</html>
+<!-- ... Your HTML code ... -->
+<script>
+  $(document).ready(function () {
+    var selectedWeather = "";
+    var selectedStatus = "";
+    var selectedCloth = "";
+    var selectedOuter = "";
+
+    $("#weatherSelect1").click(function () {
+      selectedWeather = "맑음";
+    });
+
+    $("#statusSelect1").click(function () {
+      selectedStatus = "덥다";
+    });
+
+    $("#clothSelect1").click(function () {
+      selectedCloth = "민소매";
+    });
+
+    $("#outerSelect1").click(function () {
+      selectedOuter = "가디건";
+    });
+
+    // Similarly, add event handlers for other clothSelect and outerSelect buttons...
+
+    $("#submitButton").click(function () {
+      $.ajax({
+        type: "POST",
+        url: "/submit",
+        data: {
+          weather: selectedWeather,
+          status: selectedStatus,
+          cloth: selectedCloth,
+          outer: selectedOuter,
+        },
+        success: function (response) {
+          alert("날씨 데이터가 성공적으로 저장되었습니다!");
+        },
+      });
+    });
+  });
+</script>

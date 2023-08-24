@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Weather</title>
+    <style>
+        @import url(/static/nav.css);
+        @import url(/static/main.css);
+    </style>
+    <script>
+        var Iw = 1;
+        var Wcloud = "/static/all/rain.png";
+        var Wlight = "/static/all/lightning.png";
+        var Wrain = "/static/all/rain.png";
+        var WsC = "/static/all/smallCloud.png";
+        var WsR = "/static/all/smallRain.png";
+        var WsSn = "/static/all/smallSnow.png";
+        var WsS = "/static/all/smallSun.png";
+        var Wsn = "/static/all/snow.png";
+        var Ws = "/static/all/sun.png";
+        var Wt = "/static/all/typhoon.png";
+    </script>
+    <script>
+        var Dw = 1;
+        var Dc = "/static/all/Dkcold.png";
+        var Dd = "/static/all/Dkdust.png";
+        var Dg = "/static/all/kgood.png";
+        var Dh = "/static/all/Dkhot.png";
+        var Dm = "/static/all//Dkmask.png";
+        var Dn = "/static/all/Dknormal.png";
+        var Dr = "/static/all/Dkrain.png";
+        var Ds = "/static/all/Dksweat.png";
+
+    </script>
+
+</head>
+
+<body>
+    <nav>
+        <strong onclick="window.location.href = '/main'">웨덕</strong>
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <ul>
+                <li><button onclick="window.location.href = '/weather'"><p><img src="/static/all/current_W.png"/>기상청</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/select'"><p><img src="/static/all/add_W.png"/>실시간 정보 등록</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/todayweather'"><p><img src="/static/all/cody.png"/>오늘 뭐 입지?</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/board'"><p><img src="/static/all/liveborder.png"/>실시간 게시판</p></button></li>
+                <hr />
+            </ul>
+        </div>
+        </input>
+    </nav>
+    <div class="main">
+        <section class="section">
+
+            <div class="c_weather">
+                <div>
+                    <p>날씨</p>
+                    <h1>온도</h1>
+                    <p class="min">미세먼지</p>
+                </div>
+                <div class="W">
+                    <img id="chW" src="" alt="." />
+                    <script>
+                        switch (Iw) {
+                            case 1:
+                                {document.getElementById("chW").src = Wcloud;
+                                break;}
+                            case 2:
+                                {document.getElementById("chW").src = Wlight;
+                                break;}
+                            case 3:
+                                {document.getElementById("chW").src = Wrain;
+                                break;}
+                            case 4:
+                                {document.getElementById("chW").src = WsC;
+                                break;}
+                            case 5:
+                                {document.getElementById("chW").src = WsR;
+                                break;}
+                            case 6:
+                                {document.getElementById("chW").src = WsSn;
+                                break;}
+                            case 7:
+                                {document.getElementById("chW").src = WsS;
+                                break;}
+                            case 8:
+                                {document.getElementById("chW").src = Wsn;
+                                break;}
+                            case 9:
+                                {document.getElementById("chW").src = Ws;
+                                 break;}
+                            case 10:
+                                {document.getElementById("chW").src = Wt;
+                                break;}
+
+
+                        }
+
+                    </script>
+                </div>
+                <div class="duk">
+                    <img id="chD" src="" alt="." />
+                    <script>
+                        switch (Dw) {
+                            case 1:
+                                {document.getElementById("chD").src = Dc;
+                                break;}
+                            case 2:
+                                {document.getElementById("chD").src = Dd;
+                                break;}
+                            case 3:
+                                {document.getElementById("chD").src = Dg;
+                                break;}
+                            case 4:
+                                {document.getElementById("chD").src = Dh;
+                                break;}
+                            case 5:
+                                {document.getElementById("chD").src = Dm;
+                                break;}
+                            case 6:
+                                {document.getElementById("chD").src = Dn;
+                                break;}
+                            case 7:
+                                {document.getElementById("chD").src = Dr;
+                                break;}
+                            case 8:
+                                {document.getElementById("chD").src = Ds;
+                                break;}
+                        }
+                    </script>
+                </div>
+
+                <div class="addweather">
+                    <button onclick="">
+                        <p>실시간 정보 등록하기</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Untitled Document</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #oLotto {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background-color: #cccccc;
+        border: 1px none #000000;
+        text-align: center;
+      }
+      #result {
+        font-size: 20px;
+        font-weight: bold;
+        color: #b70050;
+      }
+    </style>
+    <script language="JavaScript" type="text/JavaScript">
+      function MM_reloadPage(init) {
+        if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+          document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+        else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+      }
+      MM_reloadPage(true);
+
+      function createDiv() {
+        var i, j;
+        var Str;
+        var tmpDiv;
+
+        for (i = 0; i < 50; i++) {
+          for (j = 0; j < 50; j++) {
+            tmpDiv = document.createElement("DIV");
+            oLotto.appendChild(tmpDiv);
+            Str = "<div id='oCover' onMouseOver='changeDiv(this)' ";
+            Str += " style='position:absolute;";
+            Str += "zIndex:2;";
+            Str += "left:" + (j * 10) + "px;";
+            Str += "top:" + (i * 10) + "px;";
+            Str += "width:10px;";
+            Str += "height:10px;";
+            Str += "background-color:#B70050;";
+            Str += "visibility:visible;";
+            Str += "'></div>";
+
+            tmpDiv.outerHTML = Str;
+          }
+        }
+        oLotto.style.visibility = "visible";
+      }
+
+      function changeDiv(arg_Div) {
+        arg_Div.style.visibility = "hidden";
+      }
+
+      function getRandomNumber() {
+        return Math.floor(Math.random() * 100) + 1;
+      }
+
+      function showResult() {
+        var randomNumber = getRandomNumber();
+        var resultText = (randomNumber === 50) ? "당첨!" : "탈락";
+        document.getElementById("result").textContent = resultText;
+      }
+
+
+      function onLoad() {
+        createDiv();
+        showResult();
+        showScratchPrompt();
+      }
+    </script>
+  </head>
+  <body onLoad="onLoad();">
+    <div id="oLotto">
+      <p id="result"></p>
+    </div>
+  </body>
+</html>

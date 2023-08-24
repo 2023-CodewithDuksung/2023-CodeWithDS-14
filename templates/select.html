@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <title>날씨 및 의상 선택</title>
+  <style>
+     #header {
+            color: white;
+            background-color: #B70050;
+            width: 100%;
+            height: 100px;
+        }
+
+        nav strong {
+            display: inline-block;
+            font-size: 25px;
+            color: white;
+        }
+
+        input[id="menuicon"] {
+            display: none;
+            float: right;
+        }
+
+        input[id="menuicon"]+label {
+            display: block;
+            width: 35px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            float: right;
+        }
+
+        input[id="menuicon"]+label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            border-radius: 30px;
+            background: #B5B5B5;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"]+label span:nth-child(1) {
+            top: 0;
+        }
+
+        input[id="menuicon"]+label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[id="menuicon"]+label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="menuicon"]:checked+label {
+            z-index: 2;
+        }
+
+        input[id="menuicon"]:checked+label span {
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+            background: #B5B5B5;
+
+        }
+
+        div[class="sidebar"] {
+            width: 100vw;
+            height: 100%;
+            background: #fff;
+            position: fixed;
+            top: 7em;
+            right: -100vw;
+            z-index: 1;
+            transition: all .35s;
+
+        }
+
+        input[id="menuicon"]:checked+label+div {
+            right: 0;
+        }
+
+        .sidebar button {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .sidebar ul {
+            text-align: right;
+            margin-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .sidebar li {
+            display: block;
+            margin: 50px 0px 15px 20px;
+            text-align: left;
+        }
+
+        .sidebar strong {
+            color: gray;
+            font-size: 22px;
+        }
+
+        nav {
+            width: 100%;
+            height: 6em;
+            background-color: #B70050;
+            position: fixed;
+            padding: 2em 1.5em 1em 2em;
+            box-sizing: border-box;
+        }
+
+        * {
+            margin: 0;
+        }
+        
+        .section {
+            padding-top: 12em;
+        }
+        
+    h3 {color: #B70050; width: 300px; text-align: center; margin: 20px auto;}
+    .rounded-rectangle {
+      border: 2px solid #B70050;
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      height: 200px;
+      background-color: white; 
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      justify-items: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+    .rounded-rectangle2 {
+      border: 2px solid #B70050;
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      height: 100px;
+      background-color: white;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      justify-items: center;
+      align-items: center;
+      margin: 0 auto 10px;
+    }
+    .rounded-rectangle3 {
+      border: 2px solid white;
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      height: 300px;
+      background-color: white;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-items: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+    
+    .rounded-rectangle3 button {
+      width: 130px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1.4px solid #B70050;
+      background-color: #fff; 
+      color: #000;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none; 
+      transition: background-color 0.3s, color 0.3s; 
+    }
+
+    .rounded-rectangle22 {
+      border: 2px solid #B70050;
+      border-radius: 20px;
+      padding: 20px;
+      width: 300px;
+      height: 100px;
+      background-color: white;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      justify-items: center;
+      align-items: center;
+      margin: 0 auto 10px;
+    }
+
+    .rounded-rectangle button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background-color: #fff; 
+      color: #000;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none; 
+      transition: background-color 0.3s, color 0.3s; 
+    }
+    .rounded-rectangle2 button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      background-color: #fff; 
+      font-size: 12px;
+      cursor: pointer;
+      outline: none; 
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .rounded-rectangle22 button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1.5px solid #B70050;
+      background-color: #fff; 
+      font-size: 12px;
+      cursor: pointer;
+      outline: none; 
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .group3 .selected {
+      background-color: #B70050; 
+      color: #fff;
+    }
+
+    .group4 .selected {
+      background-color: #B70050; 
+      color: #fff;
+    }
+    .group5 .selected {
+      background-color: #B70050; 
+      color: #fff;
+    }
+    .submit-button {
+      width: 100px;
+      height: 30px;
+      border-radius: 10px;
+      border: 1.4px solid #B70050;
+      background-color: #B70050; 
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none; 
+      display: block;
+      margin: 10px auto;
+    }
+
+  </style>
+  <script>
+      function toggleSelected(button) {
+    const group1Buttons = document.querySelectorAll('.group1 button');
+
+    group1Buttons.forEach(btn => {
+      if (btn === button) {
+        const isSelected = btn.classList.contains('selected');
+        if (!isSelected) {
+          btn.classList.add('selected');
+          const checkMark = document.createElement('img');
+          checkMark.src = '체크.png';
+          checkMark.width = '20';
+          checkMark.className = 'check-mark';
+          btn.appendChild(checkMark);
+        } else {
+          btn.classList.remove('selected');
+          const checkMark = btn.querySelector('.check-mark');
+          if (checkMark) {
+            checkMark.remove();
+          }
+        }
+      } else {
+        btn.classList.remove('selected');
+        const checkMark = btn.querySelector('.check-mark');
+        if (checkMark) {
+          checkMark.remove();
+        }
+      }
+    });
+  }
+  function toggleSelected2(button) {
+    const group2Buttons = document.querySelectorAll('.group2 button');
+
+    group2Buttons.forEach(btn => {
+      if (btn === button) {
+        const isSelected = btn.classList.contains('selected');
+        if (!isSelected) {
+          btn.classList.add('selected');
+          const checkMark = document.createElement('img');
+          checkMark.src = '체크.png';
+          checkMark.width = '20';
+          checkMark.className = 'check-mark';
+          btn.appendChild(checkMark);
+        } else {
+          btn.classList.remove('selected');
+          const checkMark = btn.querySelector('.check-mark');
+          if (checkMark) {
+            checkMark.remove();
+          }
+        }
+      } else {
+        btn.classList.remove('selected');
+        const checkMark = btn.querySelector('.check-mark');
+        if (checkMark) {
+          checkMark.remove();
+        }
+      }
+    });
+  }
+    window.onload = function() {
+      const group1Buttons = document.querySelectorAll('.group1 button');
+      const group2Buttons = document.querySelectorAll('.group2 button');
+      const group3Buttons = document.querySelectorAll('.group3 button');
+      const group4Buttons = document.querySelectorAll('.group4 button');
+      const group5Buttons = document.querySelectorAll('.group5 button');
+
+      group1Buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          group1Buttons.forEach(btn => btn.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+
+      group2Buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          group2Buttons.forEach(btn => btn.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+
+      group3Buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          group3Buttons.forEach(btn => btn.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+      group4Buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          group4Buttons.forEach(btn => btn.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+      group5Buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          group5Buttons.forEach(btn => btn.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+    };
+  </script>
+</head>
+<body>
+  <nav>
+    <strong>덕성 날씨 어때?</strong>
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+        <ul>
+            <li><button onClick=""><strong>메인화면</strong></button></li>
+            <hr />
+            <li><button onClick=""><strong>일기예보 비교</strong></button></li>
+            <hr />
+            <li><button onClick=""><strong>실시간 날씨 등록하기</strong></button></li>
+            <hr />
+            <li><button onClick=""><strong>오늘 뭐 입지?</strong></button></li>
+            <hr />
+            <li><button onClick=""><strong>실시간 게시판</strong></button></li>
+            <hr />
+        </ul>
+    </div>
+    </input>
+</nav>
+  <form method="get" class="section">
+    <div><h3>지금 덕성의 날씨는 어떤가요?</h3></div>
+    <div class="rounded-rectangle group1">
+      <button type="button" name="weather" value="맑음" onclick="toggleSelected(this)" id="weather1"><img src="/static/all/1.png" width="50"></button>
+      <button type="button" name="weather" value="구름 조금" onclick="toggleSelected(this)" id="weather2"><img src="/static/all/2.png" width="50"></button>
+      <button type="button" name="weather" value="구름 많음" onclick="toggleSelected(this)" id="weather3"><img src="/static/all/3.png" width="50"></button>
+      <button type="button" name="weather" value="흐림" onclick="toggleSelected(this)" id="weather4"><img src="/static/all/4.png" width="50"></button>
+      <button type="button" name="weather" value="해와비" onclick="toggleSelected(this)" id="weather5"><img src="/static/all/5.png" width="50"></button>
+      <button type="button" name="weather" value="비" onclick="toggleSelected(this)" id="weather6"><img src="/static/all/6.png" width="50"></button>
+      <button type="button" name="weather" value="번개" onclick="toggleSelected(this)" id="weather7"><img src="/static/all/7.png" width="50"></button>
+      <button type="button" name="weather" value="눈" onclick="toggleSelected(this)" id="weather8"><img src="/static/all/8.png" width="50"></button>
+      <button type="button" name="weather" value="우박" onclick="toggleSelected(this)" id="weather9"><img src="/static/all/9.png" width="50"></button>
+      <button type="button" name="weather" value="태풍" onclick="toggleSelected(this)" id="weather10"><img src="/static/all/10.png" width="50"></button>
+    </div>
+    <div><h3>지금 나의 상태는 어떤가요?</h3></div>
+    <div class="rounded-rectangle2 group2">
+      <button type="button" name="status" value="덥다" onclick="toggleSelected(this)" id="status1"><img src="/static/all/더움.png" width="50"></button>
+      <button type="button" name="status" value="따뜻" onclick="toggleSelected(this)" id="status2"><img src="/static/all/살짝더움.png" width="50"></button>
+      <button type="button" name="status" value="적당" onclick="toggleSelected(this)" id="status3"><img src="/static/all/쾌청.png"g width="50"></button>
+      <button type="button" name="status" value="시원" onclick="toggleSelected(this)" id="status4"><img src="/static/all/살짝추움.png" width="50"></button>
+      <button type="button" name="status" value="춥다" onclick="toggleSelected(this)" id="status5"><img src="/static/all/추움.png" width="50"></button>
+    </div>
+    <div class="rounded-rectangle22 group3">
+      <button type="button" name="condition" value="건조 최악" id="condition1">건조 최악</button>
+      <button type="button" name="condition" value="건조" id="condition2">건조</button>
+      <button type="button" name="condition" value="상쾌" id="condition3" >상쾌</button>
+      <button type="button" name="condition" value="습하다" id="condition4">습함</button>
+      <button type="button" name="condition" value="습함 최악" id="condition5">습함 최악</button>
+    </div>  
+
+    <div><h3>지금 나는 무엇을 입고 있나요?</h3></div>
+    <div class="rounded-rectangle3 group4" >
+      <button type="button" name="clothing" value="민소매" id="cloth1">민소매</button>
+      <button type="button" name="clothing" value="셔츠" id="cloth2">셔츠</button>
+      <button type="button" name="clothing" value="반소매 티셔츠" id="cloth3">반소매 티셔츠</button>
+      <button type="button" name="clothing" value="긴소매 티셔츠" id="cloth4">긴소매 티셔츠</button>
+      <button type="button" name="clothing" value="맨투맨" id="cloth5">맨투맨</button>
+      <button type="button" name="clothing" value="후드티/후드집업" id="cloth6">후드티/후드집업</button>
+      <button type="button" name="clothing" value="니트" id="cloth7">니트</button>
+    </div>  
+    <div><h3>겉옷을 입었나요?</h3></div>
+    <div class="rounded-rectangle3 group5" >
+      <button type="button" name="outerwear" value="안 입음" id="outer1">안 입음</button>
+      <button type="button" name="outerwear" value="가디건" id="outer2">가디건</button>
+      <button type="button" name="outerwear" value="바람막이" id="outer3">바람막이</button>
+      <button type="button" name="outerwear" value="학잠/과잠" id="outer4">학잠/과잠</button>
+      <button type="button" name="outerwear" value="플리스" id="outer5">플리스</button>
+      <button type="button" name="outerwear" value="후드집업" id="outer6">후드집업</button>
+      <button type="button" name="outerwear" value="자켓" id="outer7">자켓</button>
+      <button type="button" name="outerwear" value="코트" id="outer8">코트</button>
+      <button type="button" name="outerwear" value="숏패딩" id="outer9">숏패딩</button>
+      <button type="button" name="outerwear" value="롱패딩" id="outer10">롱패딩</button>
+    </div>
+
+    <div class="hh">
+      <button class="submit-button" id="position">제출하기</button>
+  </form>
+</body>
+</html>
+<script>
+  $(document).ready(function () {
+   var selectedWeather = "";
+   var selectedStatus = "";
+   var selectedCondition = "";
+   var selectedCloth = "";
+   var selectedOuter = "";
+ 
+     $("#weather1").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather2").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+     $("#weather3").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather4").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather5").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather6").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather7").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather8").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather9").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+     $("#weather10").click(function () {
+       selectedWeather = $(this).attr("value");
+     });
+ 
+ 
+     $("#status1").click(function () {
+       selectedStatus = "덥다";
+     });
+ 
+     $("#status2").click(function () {
+       selectedStatus = "따뜻";
+     });
+     $("#status3").click(function () {
+       selectedStatus = "적당";
+     });
+     $("#status4").click(function () {
+       selectedStatus = "시원";
+     });
+     $("#status5").click(function () {
+       selectedStatus = "춥다";
+     });
+
+     
+     $("#condition1").click(function () {
+       selectedCondition = "건조최악";
+     });
+ 
+     $("#condition2").click(function () {
+       selectedCondition = "건조";
+     });
+     $("#condition3").click(function () {
+       selectedCondition = "상쾌";
+     });
+     $("#condition4").click(function () {
+       selectedCondition = "습하다";
+     });
+     $("#condition5").click(function () {
+       selectedCondition = "습함";
+     });
+
+     $("#cloth1").click(function () {
+     selectedCloth = "민소매";
+   });
+
+   $("#cloth2").click(function () {
+     selectedCloth = "셔츠";
+   });
+   $("#cloth3").click(function () {
+     selectedCloth = "반소매티셔츠";
+   });
+
+   $("#cloth4").click(function () {
+     selectedCloth = "긴소매티셔츠";
+   });
+
+   $("#cloth5").click(function () {
+     selectedCloth = "맨투맨";
+   });
+
+   $("#cloth6").click(function () {
+     selectedCloth = "후드티/후드집업";
+   });
+
+   $("#cloth7").click(function () {
+     selectedCloth = "니트";
+   });
+
+   $("#cloth8").click(function () {
+     selectedCloth = "";
+   });
+
+   $("#outer1").click(function () {
+     selectedOuter = "안입음";
+   });
+
+   $("#outer2").click(function () {
+     selectedOuter = "가디건";
+   });
+
+
+   $("#outer3").click(function () {
+     selectedOuter = "바람막이";
+   });
+
+
+   $("#outer4").click(function () {
+     selectedOuter = "학잠/과잠";
+   });
+
+   $("#outer5").click(function () {
+     selectedOuter = "플리스";
+   });
+
+   $("#outer6").click(function () {
+     selectedOuter = "후드집업";
+   });
+
+   $("#outer7").click(function () {
+     selectedOuter = "자켓";
+   });
+
+   $("#outer8").click(function () {
+     selectedOuter = "코트";
+   });
+
+   $("#outer9").click(function () {
+     selectedOuter = "숏패딩";
+   });
+
+   $("#outer10").click(function () {
+     selectedOuter = "롱패딩";
+   });
+
+
+  
+
+ 
+
+     $("#position").click(function () {
+     $.ajax({
+       type: "POST",
+       url: "/submit",
+       data: {
+         weather: selectedWeather,
+         status: selectedStatus,
+         condition:selectedCondition,
+         cloth: selectedCloth,
+         outer: selectedOuter,
+       },
+       success: function (response) {
+         alert("날씨 데이터가 성공적으로 저장되었습니다!");
+         window.location.href = "/finish";
+       },
+     });
+   });
+ });
+  
+  
+ </script>
+ 

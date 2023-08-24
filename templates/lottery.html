@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="result">당첨 결과입니다.</div>
+      <canvas id="canvas"></canvas>
+      <!-- Fixed the typo here -->
+    </div>
+  </body>
+</html>
+<script>
+  // Define the roundRect function
+  CanvasRenderingContext2D.prototype.roundRect = function (
+    x,
+    y,
+    width,
+    height,
+    radius
+  ) {
+    this.beginPath();
+    this.moveTo(x + radius, y);
+    this.lineTo(x + width - radius, y);
+    this.quadraticCurveTo(x + width, y, x + width, y + radius);
+    this.lineTo(x + width, y + height - radius);
+    this.quadraticCurveTo(
+      x + width,
+      y + height,
+      x + width - radius,
+      y + height
+    );
+    this.lineTo(x + radius, y + height);
+    this.quadraticCurveTo(x, y + height, x, y + height - radius);
+    this.lineTo(x, y + radius);
+    this.quadraticCurveTo(x, y, x + radius, y);
+    this.closePath();
+  };
+
+  // javascript
+  const $canvas = document.getElementById("canvas");
+  const context = $canvas.getContext("2d");
+  const WIDTH = 400;
+  const HEIGHT = 200;
+  const dpr = window.devicePixelRatio;
+
+  const initCanvas = () => {
+    $canvas.style.width = `${WIDTH}px`;
+    $canvas.style.height = `${HEIGHT}px`;
+    $canvas.width = WIDTH * dpr;
+    $canvas.height = HEIGHT * dpr;
+    context.scale(dpr, dpr);
+
+    // 회색 배경으로 덮기
+    context.strokeStyle = "#999";
+    context.fillStyle = "#999";
+    context.roundRect(0, 0, WIDTH, HEIGHT, 8); // Use the roundRect function here
+    context.stroke();
+    context.fill();
+
+    // 안내 문구 추가
+    context.font = "20px sans-serif";
+    context.fillStyle = "#000";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText("여기를 긁어보세요", WIDTH / 2, HEIGHT / 2);
+
+    // 자동으로 결과를 보여줄 임계치 설정
+    const col = Math.ceil(WIDTH / (ERASE_RADIUS * 2 + ERASE_DISTANCE));
+    const row = Math.ceil(HEIGHT / (ERASE_RADIUS * 2 + ERASE_DISTANCE));
+    thresholdOfEraseCount = col * row;
+    // 투명한 원이 최대로 그려질 경우를 캔버스에 표현
+    for (let i = 0; i < col; i++) {
+      for (let j = 0; j < row; j++) {
+        context.save();
+        context.beginPath();
+        context.arc(
+          ERASE_RADIUS + i * (ERASE_RADIUS * 2 + ERASE_DISTANCE),
+          ERASE_RADIUS + j * (ERASE_RADIUS * 2 + ERASE_DISTANCE),
+          ERASE_RADIUS,
+          0,
+          2 * Math.PI,
+          false
+        );
+        context.fill();
+        context.closePath();
+        context.restore();
+      }
+    }
+  };
+
+  initCanvas();
+
+  // javascript
+  const ERASE_RADIUS = 30;
+  const { top: canvasTop, left: canvasLeft } = $canvas.getBoundingClientRect();
+  let isDrawing = false;
+
+  const handleDrawingStart = () => {
+    if (!isDrawing) {
+      isDrawing = true;
+    }
+  };
+
+  const handleDrawing = (event) => {
+    if (isDrawing) {
+      const { offsetX, offsetY } = event;
+      context.save();
+      context.globalCompositeOperation = "destination-out";
+      context.beginPath();
+      context.arc(offsetX, offsetY, ERASE_RADIUS, 0, 2 * Math.PI, false);
+      context.fill();
+      context.closePath();
+      context.restore();
+
+      if (isDrawing) {
+        if (erasedList.length < thresholdOfEraseCount) {
+          drawTransparentCircle(x, y);
+        } else {
+          if (!isRevealed) {
+            context.clearRect(0, 0, WIDTH, HEIGHT);
+            isRevealed = true;
+          }
+        }
+      }
+    }
+  };
+
+  const handleDrawingEnd = () => {
+    if (isDrawing) {
+      isDrawing = false;
+    }
+  };
+
+  $canvas.addEventListener("mousedown", handleDrawingStart);
+  $canvas.addEventListener("mousemove", handleDrawing);
+  $canvas.addEventListener("mouseup", handleDrawingEnd);
+
+  // javascript
+  const ERASE_DISTANCE = ERASE_RADIUS / 2; // 지워진 영역(투명한 원)간 임의 간격
+  let thresholdOfEraseCount = 0;
+
+  // javascript
+  let isRevealed = false;
+
+  const drawTransparentCircle = (x, y) => {
+    context.save();
+    context.globalCompositeOperation = "destination-out";
+    context.beginPath();
+    context.arc(x, y, ERASE_RADIUS, 0, 2 * Math.PI, false);
+    context.fill();
+    context.closePath();
+    context.restore();
+
+    const checkList = erasedList.filter(({ x: posX, y: posY }) => {
+      const distX = posX - x;
+      const distY = posY - y;
+      return (
+        Math.sqrt(distX * distX + distY * distY) < ERASE_RADIUS + ERASE_DISTANCE
+      );
+    });
+    if (!checkList.length) {
+      erasedList.push({ x, y });
+    }
+  };
+</script>

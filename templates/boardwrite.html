@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/static/boardwrite.css" rel="stylesheet">
+    <style>
+        nav strong {
+            display: inline-block;
+            font-size: 25px;
+            color: white;
+        }
+
+        input[id="menuicon"] {
+            display: none;
+            float: right;
+        }
+
+        input[id="menuicon"]+label {
+            display: block;
+            width: 35px;
+            height: 25px;
+            position: relative;
+            cursor: pointer;
+            float: right;
+        }
+
+        input[id="menuicon"]+label span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            border-radius: 30px;
+            background: #B5B5B5;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"]+label span:nth-child(1) {
+            top: 0;
+        }
+
+        input[id="menuicon"]+label span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        input[id="menuicon"]+label span:nth-child(3) {
+            bottom: 0;
+        }
+
+        input[id="menuicon"]:checked+label {
+            z-index: 2;
+        }
+
+        input[id="menuicon"]:checked+label span {
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            background: #B5B5B5;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input[id="menuicon"]:checked+label span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+            background: #B5B5B5;
+
+        }
+
+        div[class="sidebar"] {
+            width: 100vw;
+            height: 100%;
+            background: #fff;
+            position: fixed;
+            top: 6em;
+            right: -100vw;
+            z-index: 1;
+            transition: all .35s;
+        }
+
+        input[id="menuicon"]:checked+label+div {
+            right: 0;
+        }
+
+        .sidebar button {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .sidebar ul {
+            text-align: right;
+            margin-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .sidebar li {
+            display: block;
+            margin: 50px 0px 15px 20px;
+            text-align: left;
+        }
+
+        .sidebar strong {
+            color: gray;
+            font-size: 22px;
+        }
+
+        nav {
+            width: 100%;
+            height: 6em;
+            background-color: #B70050;
+            position: fixed;
+            padding: 2em 1.5em 1em 2em;
+        }
+
+        .section {
+            padding-top: 7em;
+        }
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <strong>웨덕</strong>
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <ul>
+                <li><button onClick=""><strong>메인화면</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>일기예보 비교</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>실시간 날씨 등록하기</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>오늘 뭐 입지?</strong></button></li>
+                <hr />
+                <li><button onClick=""><strong>실시간 게시판</strong></button></li>
+                <hr />
+            </ul>
+        </div>
+        </input>
+    </nav>
+    <div class="section">
+        <h2>실시간 게시판</h2><br>
+        <!-- <label for="title">제목</label><input type="text" id="title" /> -->
+        <!-- <label id="lable" for="content"></label><input type="text" id="content" placeholder="실시간 게시판에 참여하세요" /> -->
+        <div id="border"><label id="label" for="content">
+        <textarea id="content" placeholder="실시간 게시판에 참여하세요"></textarea>
+        <div class="container">
+            <div class="image-upload" id="image-upload">
+    
+                <form method="post" enctype="multipart/form-data">
+                    <div class="button">
+                        <label for="chooseFile">
+                            <img src="/static/all/camera.png" height="25px"></img>
+                        </label>
+                    </div>
+                    <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
+                </form>
+    
+                <div class="fileContainer">
+                    <div class="fileInput">
+                        <p>FILE NAME: </p>
+                        <p id="fileName"></p>
+                    </div>
+                    <div class="buttonContainer">
+                        <div class="submitButton" id="submitButton">SUBMIT</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-show" id="image-show"></div>
+        </div>
+        <button id="borderButton">등록</button></label>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
+<script>
+     $(document).ready(function () {
+         $("#borderButton").click(function () {
+             var content = $("#content").val();
+             $.ajax({
+                 type: "POST",
+                 url: "/dd",
+                 data: {
+                     content: content,
+               },
+                 success: function (response) {
+                     alert("게시물 등록 완료!");
+                     window.location.href = "/board";
+                 },
+             });
+         });
+     });
+
+var submit = document.getElementById("submitButton");
+submit.onclick = showImage; //Submit 버튼 클릭시 이미지 보여주기
+
+function showImage() {
+  var newImage = document.getElementById("image-show").lastElementChild;
+  newImage.style.visibility = "visible";
+
+  document.getElementById("image-upload").style.visibility = "hidden";
+
+  document.getElementById("fileName").textContent = null; //기존 파일 이름 지우기
+}
+
+function loadFile(input) {
+  var file = input.files[0];
+
+  var name = document.getElementById("fileName");
+  name.textContent = file.name;
+
+  var newImage = document.createElement("img");
+  newImage.setAttribute("class", "img");
+
+  newImage.src = URL.createObjectURL(file);
+
+  newImage.style.width = "70%";
+  newImage.style.height = "70%";
+  newImage.style.visibility = "hidden"; //버튼을 누르기 전까지는 이미지 숨기기
+  newImage.style.objectFit = "contain";
+
+  var container = document.getElementById("image-show");
+  container.appendChild(newImage);
+}
+
+</script>

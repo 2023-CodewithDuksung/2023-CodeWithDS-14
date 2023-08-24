@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+    <style>
+        @import url(/static/nav.css);
+        .centered {
+  text-align: center;
+}
+    </style>
+  </head>
+  <body>
+    <nav>
+        <strong onclick="">웨덕</strong>
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <ul>
+                <li><button onclick="window.location.href = '/board'"><p><img src="/static/all/current_W.png"/>일기예보 비교</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/boardwrite'"><p><img src="/static/all/add_W.png"/>실시간 날씨 등록하기</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/select'"><p><img src="/static/all/cody.png"/>오늘 뭐 입지?</p></button></li>
+                <hr />
+                <li><button onclick="window.location.href = '/board'"><p><img src="/static/all/liveborder.png"/>실시간 게시판</p></button></li>
+                <hr />
+            </ul>
+        </div>
+        </input>
+    </nav>
+    <div class="main">
+        <section class="section">
+            <h1><strong>기상청 일기예보</strong></h1>
+            <h4>1시간마다 업데이트</h4>
+        </div></section>
+    <p >{% for cw in crawlweather %}
+        <h3 id="you"  class="centered"> <hr><br> 오늘{{cw[0]}} </br> {{cw[1]}}는 </br> {{cw[2]}} 강수확률 {{cw[3]}} 습도 {{cw[4]}} </br> {{cw[5]}} 
+        {% endfor %}<br>
+  </h3></p> 
+  </body>
+</html>

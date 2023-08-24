@@ -1,0 +1,30 @@
+h2 {
+  color: #b70050;
+  margin-left: 15px;
+}
+
+#you {
+  border-radius: 20px;
+  border: 1px solid #b70050;
+  padding: 10px;
+  width: 90%;
+  margin: 20px;
+  text-align: light;
+  display: block;
+  /* float: left; */
+  margin-right: auto;
+}
+
+#button {
+  margin-top: 10px;
+  padding: 7px;
+  width: 100px;
+  border: 1px solid #b70050;
+  margin-bottom: 10px;
+  margin-left: 82%;
+  border-radius: 20px;
+  background-color: #b70050;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+}
